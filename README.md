@@ -190,6 +190,12 @@ We would like to acknowledge and thank the following organizations, tools, and c
 - **NASA** – For the SPHEREx mission and the astronomical data that inspired and powered this project.
 - **NASA/IPAC Infrared Science Archive (IRSA)** – For providing access to SPHEREx observational data and related astronomical resources.
 
+Primary Data Source: SPHEREx Spectral Images via IRSA SIA2.
+ 
+Fallback Data Source: SPHEREx DR1 All-Sky Spectral Cube via IRSA/AWS Open Data S3.
+
+The SIA2 service is queried for individual SPHEREx observations. If that service is temporarily unavailable, SkyTime falls back to the DR1 All-Sky Spectral Cube. The cube's usable spectral planes represent different wavelengths, not separate observation epochs.
+
 ### Libraries & Technologies
 - **[Aladin Lite](https://aladin.cds.unistra.fr/AladinLite/)** – For enabling interactive astronomical sky visualization and exploration.
 - **[Google AI Studio](https://aistudio.google.com/)** – Used as the primary AI-assisted development environment during implementation.

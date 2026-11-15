@@ -681,15 +681,8 @@ export async function extractCubeCutoutFitsBuffer(params: {
   };
 }
 
-// Curated spectral planes spanning all 6 detectors (D1-D6), avoiding blank channels D3:17 (51) and D4:01 (52)
-const CURATED_PLANES = [
-  2, 8, 15,        // D1 (0.77 - 1.06 um)
-  19, 25, 32,      // D2 (1.13 - 1.56 um)
-  36, 42, 49,      // D3 (1.68 - 2.30 um)
-  54, 57, 60, 63, 67, // D4 (2.56 - 3.70 um, 5 channels for multi-band diff & default view)
-  70, 77, 83,      // D5 (3.87 - 4.35 um)
-  87, 94, 100,     // D6 (4.47 - 4.92 um)
-];
+// Return all 102 spectral cube planes across D1–D6 (blank dichroic channels D3:17 and D4:01 are skipped via BLANKCH, yielding 100 valid observations)
+const ALL_SPECTRAL_PLANES = Array.from({ length: NUM_CHANNELS }, (_, idx) => idx + 1);
 
 export async function querySpherexCubeObservations(params: {
   raDeg: number;
@@ -722,7 +715,7 @@ export async function querySpherexCubeObservations(params: {
 
   const observations: SpherexObservation[] = [];
 
-  for (const plane of CURATED_PLANES) {
+  for (const plane of ALL_SPECTRAL_PLANES) {
     const ch = channels.find((c) => c.plane === plane);
     if (!ch) continue;
     const chTag = `D${ch.detector}:${String(ch.channelInDetector).padStart(2, '0')}`;
@@ -778,7 +771,7 @@ export async function querySpherexCubeObservations(params: {
     sourceStatus: observations.length > 0 ? 'live-cube-fallback' : 'empty',
     upstreamError,
     noticeMessage:
-      'NASA/IPAC IRSA SIA2 exposure query is temporarily returning HTTP 502 upstream. Automatically displaying real SPHEREx DR1 All-Sky Spectral Cube data (IRSA / AWS Open Data S3) across bands D1–D6.',
+      `NASA/IPAC IRSA SIA2 exposure query is temporarily returning HTTP 502 upstream. Automatically displaying all ${observations.length} valid spectral channels from the real SPHEREx DR1 All-Sky Spectral Cube (IRSA / AWS Open Data S3) across bands D1–D6.`,
     totalCount: observations.length,
     observations,
   };

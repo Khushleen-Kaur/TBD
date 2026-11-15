@@ -733,7 +733,7 @@ export function SkyExplorer({
 
     const result = await runObservationPrepQueue({
       observations: filteredObservations,
-      concurrency: 2,
+      concurrency: searchResult.sourceStatus === 'live-cube-fallback' ? 4 : 2,
       isAlreadyCached: (obs) => Boolean(fitsCacheRef.current[renderKey(obs.id)]?.pngDataUrl),
       prepareOne: async (obs, onStage, obsSignal) => {
         const res = await inspectObservation(
@@ -938,7 +938,7 @@ export function SkyExplorer({
     if (!searchResult || filteredObservations.length === 0) return;
     setIsSampling(true);
     const total = filteredObservations.length;
-    const sampleCount = Math.min(8, total);
+    const sampleCount = Math.min(12, total);
     const indices = new Set<number>();
     for (let i = 0; i < sampleCount; i++) {
       indices.add(Math.round((i * (total - 1)) / Math.max(1, sampleCount - 1)));
