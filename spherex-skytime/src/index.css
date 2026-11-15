@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: #060a14;
+    color: #f1f5f9;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+/* 3D card flip utilities */
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Subtle shooting stars traveling top-left -> bottom-right */
+@keyframes shooting-star-tl-br {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(31deg) scaleX(0.35);
+    opacity: 0;
+  }
+  7% {
+    opacity: 0.85;
+    transform: translate3d(48px, 29px, 0) rotate(31deg) scaleX(1);
+  }
+  26% {
+    opacity: 0;
+    transform: translate3d(260px, 156px, 0) rotate(31deg) scaleX(0.55);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(260px, 156px, 0) rotate(31deg) scaleX(0.55);
+  }
+}
+
+.animate-shooting-star {
+  opacity: 0;
+  animation-name: shooting-star-tl-br;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-shooting-star {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
+/* Ensure Aladin Lite fullscreen mode sits cleanly on top */
+.aladin-fullscreen {
+  z-index: 9999 !important;
+}
+

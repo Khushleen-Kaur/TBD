@@ -1,0 +1,6 @@
+{
+  "name": "SPHEREx SkyTime",
+  "description": "Explore real NASA SPHEREx near-infrared sky observations across time and spectral bands through the NASA/IPAC IRSA archive.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
